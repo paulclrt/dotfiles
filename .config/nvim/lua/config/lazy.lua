@@ -1,3 +1,4 @@
+-- ~/.config/nvim/init.lua
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -14,18 +15,62 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
-
-
--- need to set leader before setting up lazy so here
+-- Configuration de base avant le chargement des plugins
 vim.g.mapleader = " "
+vim.g.lazyvim_check_order = false                                                                                                       
+
+require("config.options") -- Vos options personnalisées
+require("config.keymaps") -- Vos raccourcis personnalisés
+
+require("lazy").setup({
+  spec = {
+
+    -- Vos plugins personnalisés
+    { import = "plugins" },
+
+    -- Extensions LazyVim (optionnel)
+    -- { import = "lazyvim.plugins.extras.ui.mini-starter" },
+    -- { import = "lazyvim.plugins.extras.lang.json" },
+  },
+  defaults = {
+    lazy = false,
+    version = false,
+  },
+  -- install = {
+  --   colorscheme = { "catppuccin" }, -- Votre thème préféré
+  -- },
+  checker = { enabled = false},
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+
+  {
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      opts = {},
+  },
+})
 
 
 
 
 
-require("lazy").setup("plugins")
-require("config.keymaps")
-require("config.autocmds")
-require("config.options")
+-- cmp, lsp, mason
+require("config.nvim-cmp")
+require("config.config_treesitter")
+require("config.nvim-lspconfig")
+require("config.telescope")
+require("config.harpoon")
+require("config.typescript-lsp")
+require("config.oil")
+require("config.autoclose")
+require("config.luasnip")
 

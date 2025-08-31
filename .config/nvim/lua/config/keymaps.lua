@@ -2,7 +2,7 @@ local opts = { noremap = true, silent = true }
 
 -- Example keymaps
 -- leader key and fs navigation
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex) --> not anymore since using oil nvim
 
 --inside file nav
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -15,6 +15,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
+vim.keymap.set("v", "<leader>Y", "\"+Y")
 
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
@@ -33,3 +34,5 @@ vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', opts)
 vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', opts)
 vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', opts)
 vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', opts)
+
+

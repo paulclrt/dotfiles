@@ -28,8 +28,8 @@ lspconfig.arduino_language_server.setup({
   capabilities = capabilities,
   cmd = {
     "arduino-language-server",
-    "-cli-config", "/path/to/arduino-cli.yaml", -- Remplacez par le chemin vers votre configuration Arduino CLI
-    "-fqbn", "arduino:avr:uno", -- Remplacez par votre carte Arduino
+    "-cli-config", "C:/Users/PC/Desktop/PROJET_ELEC/sketch.yaml", -- Remplacez par le chemin vers votre configuration Arduino CLI
+    "-fqbn", "arduino:sam:arduino_due_x_dbg", -- Remplacez par votre carte Arduino
   },
 })
 

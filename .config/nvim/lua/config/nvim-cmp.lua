@@ -1,11 +1,15 @@
+local luasnip = require("luasnip")
+local cmp = require("cmp")
+
+
+
+
 local has_words_before = function()
     unpack = unpack or table.unpack
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local luasnip = require("luasnip")
-local cmp = require("cmp")
 
 cmp.setup({
     snippet = {
@@ -15,18 +19,19 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        -- Use <C-b/f> to scroll the docs
-        ['<C-b>'] = cmp.mapping.scroll_docs( -4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        -- Use <C-k/j> to switch in items
-        ['<C-k>'] = cmp.mapping.select_prev_item(),
-        ['<C-j>'] = cmp.mapping.select_next_item(),
-        -- Use <CR>(Enter) to confirm selection
-        -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<C-Space>'] = cmp.mapping.complete(), -- Trigger completion menu
+      -- Use <C-b/f> to scroll the docs
+      ['<C-b>'] = cmp.mapping.scroll_docs( -4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      -- Use <C-k/j> to switch in items
+      ['<C-k>'] = cmp.mapping.select_prev_item(),
+      ['<C-j>'] = cmp.mapping.select_next_item(),
+      -- Use <CR>(Enter) to confirm selection
+      -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-        -- A super tab
-        -- sourc: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
+      -- A super tab
+      -- sourc: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
         ["<Tab>"] = cmp.mapping(function(fallback)
             -- Hint: if the completion menu is visible select next one
             if cmp.visible() then
