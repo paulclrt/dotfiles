@@ -73,5 +73,4 @@ require("config.typescript-lsp")
 require("config.oil")
 require("config.autoclose")
 require("config.luasnip")
-require("config.vimtex")
 

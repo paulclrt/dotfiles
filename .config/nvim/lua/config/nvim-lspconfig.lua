@@ -88,9 +88,9 @@ lspconfig.tailwindcss.setup({
     capabilities = capabilities
 })
 
-lspconfig.terraform.setup({
-    on_attach = on_attach,
-    capabilities = capabilities
-})
+-- lspconfig.terraform.setup({
+--     on_attach = on_attach,
+--     capabilities = capabilities
+-- })
 
 
