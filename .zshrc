@@ -30,7 +30,11 @@ PROMPT='%F{green}%n@%m%f:%F{blue}%~%f${vcs_info_msg_0_}%# '
 export PATH="$PATH:/home/paulclrt/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# opencode
+export PATH=/home/paulclrt/.opencode/bin:$PATH
 
 
+bindkey ";5C" forward-word
+bindkey ";5D" backward-word
 
 bindkey -e
