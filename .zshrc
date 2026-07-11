@@ -1,10 +1,10 @@
 # env
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 export PATH="$PATH:/home/paulclrt/exe"
 
 # aliases
-alias vim=nvim
+# alias vim=nvim
 alias ll='ls -alF'
 
 # cargo / local env
