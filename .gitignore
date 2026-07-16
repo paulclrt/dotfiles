@@ -1,3 +1,5 @@
 .config/*/
 !.config/nvim
 !.config/configsaves
+!.config/polybar
+!.config/picom
