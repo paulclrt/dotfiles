@@ -41,7 +41,7 @@ From the dotfiles folder run:
 
 #### Screensaver
 I3 by default doesn't take into account what the user is doing before going into screen save mode. In oder to prevent i3 from locking the screen after not moving the mouse (while watching netflix/youtube for instance), I have decided to use xidlehook.
-Install and buld requires `rust ` and `cardo`.
+Install and build requires `rust` and `cargo`.
 
 Install with:
 ```bash
