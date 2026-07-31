@@ -21,9 +21,10 @@ From the dotfiles folder run:
 
 ### Vim plugins
 - comentary
-- ctrlp
+- fzf
 - everforest (theme used)
 - gruvbox (theme but not used)
+- easymotion
 - nerdtree
 - tagbar
 - vimairline
