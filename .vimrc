@@ -49,7 +49,8 @@ set noswapfile
 " Keybindings
 let mapleader=" "
 nnoremap <leader>c :nohlsearch<CR>
-nnoremap Y y$
+"nnoremap Y y$
+nnoremap Y "*
 
 
 
@@ -77,13 +78,16 @@ nnoremap <Esc>x :close<CR>
 
 
 """ Tab navigation
-" nnoremap <Esc>e gt
-" nnoremap <Esc>a gT
-" nnoremap <Esc>& 1gt
-" nnoremap <Esc>é 2gt
-" nnoremap <Esc>" 3gt
-" nnoremap <Esc>' 4gt
-" nnoremap <Esc>( 5gt
+" When the terminal is causing troubles
+nnoremap <Esc>e gt
+nnoremap <Esc>a gT
+nnoremap <Esc>& 1gt
+nnoremap <Esc>é 2gt
+nnoremap <Esc>" 3gt
+nnoremap <Esc>' 4gt
+nnoremap <Esc>( 5gt
+
+" When no problem with terminal
 nnoremap <M-e> gt
 nnoremap <M-a> gT
 nnoremap <M-&> 1gt
@@ -116,16 +120,32 @@ nnoremap <C-f> :NERDTreeFind<CR>
 nnoremap <space>pv :Ex<CR>
 
 " CtrlP
-nnoremap <leader>ff :CtrlP<CR>
-nnoremap <leader>fr :CtrlPMRU<CR>
+" nnoremap <leader>ff :CtrlP<CR>
+" nnoremap <leader>fr :CtrlPMRU<CR>
 
+" vim-easymotion
+" Two-character search (closest to Flash)
+nmap s <Plug>(easymotion-s2)
 
+" Word jumps
+nmap <Leader>w <Plug>(easymotion-w)
 
+" Line jumps
+nmap <Leader>j <Plug>(easymotion-j)
+nmap <Leader>k <Plug>(easymotion-k)
+
+" Character search
+nmap <Leader>f <Plug>(easymotion-f)
+
+" fzf
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>g :Rg<CR>
 
 
 
 set mouse=a
-autocmd VimEnter * NERDTree | wincmd p
+" autocmd VimEnter * NERDTree | wincmd p
 
 " Colors / themes
 colorscheme everforest
