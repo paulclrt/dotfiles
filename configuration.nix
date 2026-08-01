@@ -92,21 +92,12 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-
 	###################################################################
 	# Users
 	###################################################################
   users.users.paulclrt= {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "paulclrt" "wheel" ];
-    packages = with pkgs; [
-      tree
-      vim
-      git
-      openssh
-			fzf
-			ripgrep
-    ];
   };
 
 
