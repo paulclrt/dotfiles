@@ -8,6 +8,7 @@
 	home.packages = with pkgs; [
 		git
 		vim
+		zsh
 		htop
 		btop
 		fzf
@@ -26,5 +27,7 @@
 			lg = "log --oneline --graph";	
 		};
 	};
+	programs.zsh.enable = true;
 
+  	xsession.windowManager.i3.config = builtins.readFile ./i3/config;
 }

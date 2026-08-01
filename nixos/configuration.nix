@@ -53,6 +53,11 @@
   	wget
   	lf
   	htop
+	i3
+	ghostty
+	xorg.xinit
+	xorg.xrandr
+	dmenu
   ];
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -63,7 +68,17 @@
   # };
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    xkb = {
+      layout = "fr";
+      variant = "";
+    };
+  };
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.windowManager.i3.enable = true;
+
+  console.keyMap = "fr";
 
 
   
