@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+ #      <home-manager/nixos>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -16,9 +17,9 @@
 
 
 
-	###################################################################
-	# System Globals
-	###################################################################
+  ###################################################################
+  # System Globals
+  ###################################################################
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "console=ttyS0" ];
@@ -42,9 +43,9 @@
 	
 
 
-	###################################################################
-	# SystemPackages
-	###################################################################
+  ###################################################################
+  # SystemPackages
+  ###################################################################
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [

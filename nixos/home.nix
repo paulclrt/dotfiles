@@ -1,8 +1,9 @@
-{ pkgs, ... }
+{ pkgs, ... }:
 
 {
 	home.username = "paulclrt";
 	home.homeDirectory = "/home/paulclrt";
+	home.stateVersion = "24.05";
 
 	home.packages = with pkgs; [
 		git
