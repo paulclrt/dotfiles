@@ -238,7 +238,7 @@ client.urgent           #f38ba8 #f38ba8 #1e1e2e #f38ba8 #f38ba8
 exec_always --no-startup-id feh --bg-fill /home/paulclrt/Pictures/wallpapers/nature.jpg
 
 # apps border 
-default_border pixel 2
+default_border pixel 4
 default_floating_border pixel 2
 gaps inner 4
 gaps outer  2
@@ -251,11 +251,18 @@ exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec rofi -show drun
+bindsym $mod+Shift+d exec sudo -A rofi -show run
 bindsym Mod1+Tab exec --no-startup-id "rofi -show"
 bindsym Mod1+Shift+e exec nautilus
 
 # default some apps to floating
 for_window [class="org.gnome.Nautilus"] floating enable
+for_window [class="Gtkwave"] floating enable
+
+# screenshots
+bindsym Print exec --no-startup-id maim "$HOME/Pictures/$(date +'%Y-%m-%d-%H-%M-%S.png')"
+bindsym Ctrl+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+
 
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
