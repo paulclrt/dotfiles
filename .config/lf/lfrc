@@ -1,0 +1,13 @@
+set previewer ~/.config/lf/previewer
+cmd open ${{
+    case "$(file -Lb --mime-type "$f")" in
+        text/*)
+            nvim "$f"
+            ;;
+        *)
+            xdg-open "$f"
+            ;;
+    esac
+}}
+map <enter> open
+

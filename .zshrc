@@ -8,6 +8,7 @@ export PATH="$PATH:/home/paulclrt/exe"
 #alias vim=nvim
 alias ll='ls -alF'
 bosemac='E4:58:BC:5E:F5:02'
+jblmac='F8:5C:7D:9C:70:D9'
 alias btbose="bluetoothctl connect $bose_mac"
 
 # cargo / local env
@@ -62,3 +63,6 @@ bindkey '^X^E' edit-command-line
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias vim=nvim
+alias l=lf
