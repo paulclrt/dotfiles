@@ -4,157 +4,254 @@
 
 { config, lib, pkgs, ... }:
 
+
+let noctalia-src = let
+#Rest of configuration
+commit = "v5.2.0"; # TAG
+in
+fetchTarball {
+	url = "https://github.com/noctalia-dev/noctalia/archive/${commit}.tar.gz";
+	sha256 = "16ndg97ri51g4b0hg4k3h7dyi6s3cqz2xsw2r999az2g5xd73x25"; # hash from using `nix-prefetch-url --unpack`
+};
+
+noctalia = import noctalia-src {
+	inherit pkgs; 
+};
+in
+
+
+
+
+
+# ============================================
+# Rest of configuration
+# Paul Claret
+#
+
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
- #      <home-manager/nixos>
-    ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+	imports =
+		[ # Include the results of the hardware scan.
+		./hardware-configuration.nix
+		];
 
-
-
-  ###################################################################
-  # System Globals
-  ###################################################################
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "console=ttyS0" ];
-
-	# Networking
-  networking.hostName = "nixos-paulclrt"; 
-  # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
-  time.timeZone = "Europe/Paris";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+	# Overlays
+	nixpkgs.overlays = [
+		(final: prev: {
+			age = final.callPackage ./pkgs/der.nix {};
+		})
+	];
 
 
 
+# enable experimental features
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
+# Use the systemd-boot EFI boot loader.
+	boot.loader.systemd-boot.enable = true;
+	boot.loader.efi.canTouchEfiVariables = true;
+	security.tpm2.enable = false;
+	networking.hostName = "paulclrt-nixos"; 
+	networking.networkmanager.enable = true;
+	hardware.bluetooth.enable = true;
+	services.upower.enable = true;
+#services.power-profiles-deamon.enable = true;
+	time.timeZone = "Europe/Paris";
+
+	virtualisation.libvirtd.enable = true;
+	programs.virt-manager.enable = true;
 
 
-	
+	nixpkgs.config.allowUnfreePredicate = pkg:
+		builtins.elem (pkgs.lib.getName pkg) [
+		"claude-code" "obsidian" "libsciter" "steam-run"
+		];
 
-
-  ###################################################################
-  # SystemPackages
-  ###################################################################
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
-  	vim
-  	wget
-  	lf
-  	htop
-	i3
-	ghostty
-	xorg.xinit
-	xorg.xrandr
-	dmenu
-  ];
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "fr";
-      variant = "";
-    };
-  };
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.windowManager.i3.enable = true;
-
-  console.keyMap = "fr";
-
-
-  
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-	###################################################################
-	# Services
-	###################################################################
-	services.openssh.enable = true;
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-	###################################################################
-	# Users
-	###################################################################
-  users.users.paulclrt= {
-    isNormalUser = true;
-    extraGroups = [ "networkmanager" "paulclrt" "wheel" ];
-  };
+# Enable the X11 windowing system.
+	services.xserver = {
+		enable = true;
+		xkb = {
+			layout = "fr";
+			variant = "latin9";
+		};
+	};
+	programs.hyprland = {
+		enable = true;
+		xwayland.enable = true;
+		withUWSM = true;
+	};
+	services.displayManager.gdm = {
+		enable = true;
+		# wayland.enable = true;
+		autoSuspend = false; # géré par noctalia
+	};
+	services.pipewire = {
+		enable = true;
+		pulse.enable = true;
+	};
+	programs.ssh.startAgent = true;
 
 
 
 
 
-  # programs.firefox.enable = true;
+	security.rtkit.enable = true;
+	environment.systemPackages = with pkgs; [ 
+		vim 
+		gcc
+		neovim
+		qemu
+		noctalia.package
+		hyprpaper
+		hyprlauncher
+	];
+
+	programs.nix-ld.enable = true;
+	programs.nix-ld.libraries = with pkgs; [
+	  stdenv.cc.cc.lib  # libstdc++
+	  zlib
+	  openssl
+	  # add whatever ldd reports missing
+	];
 
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+# Configure network proxy if necessary
+# networking.proxy.default = "http://user:password@proxy:port/";
+# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+# Select internationalisation properties.
+	i18n.defaultLocale = "en_US.UTF-8";
+	console.keyMap = "fr-latin9";
+#  console = {
+#     font = "fr-latin9";
+#     keyMap = "fr-latin9";
+#     useXkbConfig = true; # use xkb.options in tty.
+#  };
 
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "26.05"; # Did you read the comment? yes :)
+
+
+# Configure keymap in X11
+# services.xserver.xkb.layout = "us";
+# services.xserver.xkb.options = "eurosign:e,caps:escape";
+
+# Enable CUPS to print documents.
+# services.printing.enable = true;
+
+# Enable sound.
+# services.pulseaudio.enable = true;
+# OR
+# services.pipewire = {
+#   enable = true;
+#   pulse.enable = true;
+# };
+
+# Enable touchpad support (enabled default in most desktopManager).
+# services.libinput.enable = true;
+
+# Define a user account. Don't forget to set a password with ‘passwd’.
+	programs.zsh.enable = true;
+	users.users.paulclrt= {
+		isNormalUser = true;
+		extraGroups = [ "wheel"  "libvirtd" "input" ]; # Enable ‘sudo’ for the user.
+			packages = with pkgs; [
+			# for neovim lsp to install
+				unzip
+				nodejs_22
+			# neovim plugins 
+				ripgrep
+				fd
+				tree-sitter
+				lazygit
+			# dev
+				gdb
+				radare2
+				git
+				claude-code
+				vim
+				tmux
+				python3
+				kitty
+
+			# desktop apps for everyday
+				miktex
+				rustdesk
+				qgis
+				firefox
+				obsidian
+
+			# general files / os functions
+				hyprlock	
+				hypridle
+				nautilus
+
+				wget
+				htop
+			];
+		initialPassword = "passwd";
+		shell = pkgs.zsh;
+	};
+
+
+#  services.displayManager.noctalia-greeter = {
+#	enable = true;
+#	settings = {
+#		cursor.size = 24;
+#		keyboard.layout = "fr";
+#	};
+#	cursorTheme = {
+#		package = pkgs.bibata-cursors;
+#		name = "Bibata-Modern-Ice";
+#	};
+#  };
+
+# programs.firefox.enable = true;
+
+
+# Some programs need SUID wrappers, can be configured further or are
+# started in user sessions.
+# programs.mtr.enable = true;
+# programs.gnupg.agent = {
+#   enable = true;
+#   enableSSHSupport = true;
+# };
+
+# List services that you want to enable:
+
+# Enable the OpenSSH daemon.
+# services.openssh.enable = true;
+
+# Open ports in the firewall.
+# networking.firewall.allowedTCPPorts = [ ... ];
+# networking.firewall.allowedUDPPorts = [ ... ];
+# Or disable the firewall altogether.
+# networking.firewall.enable = false;
+
+# Copy the NixOS configuration file and link it from the resulting system
+# (/run/current-system/configuration.nix). This is useful in case you
+# accidentally delete configuration.nix.
+# system.copySystemConfiguration = true;
+
+# This option defines the first version of NixOS you have installed on this particular machine,
+# and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
+#
+# Most users should NEVER change this value after the initial install, for any reason,
+# even if you've upgraded your system to a new NixOS release.
+#
+# This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
+# so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+# to actually do that.
+#
+# This value being lower than the current NixOS release does NOT mean your system is
+# out of date, out of support, or vulnerable.
+#
+# Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
+# and migrated your data accordingly.
+#
+# For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+	system.stateVersion = "26.05"; # Did you read the comment?
 
 }
 
