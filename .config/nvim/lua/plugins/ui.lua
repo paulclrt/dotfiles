@@ -5,11 +5,10 @@ return {
     name = "catppuccin",
     priority = 1000,
     config = function()
-      require("catppuccin").setup({ flavor = "frappe" })
+      require("catppuccin").setup({ flavor = "frappe", transparent_background = true })
       vim.cmd.colorscheme("catppuccin")
     end
   },
-
 
   --log editing
   {
@@ -20,6 +19,21 @@ return {
   --git conflicts
   {'akinsho/git-conflict.nvim', version = "*", config = true},
   -- please read the doc to understand: https://github.com/akinsho/git-conflict.nvim?tab=readme-ov-file
+
+  {
+    'lewis6991/gitsigns.nvim',
+    config = function ()
+      require("gitsigns").setup({
+        signcolumn = false,
+        numhl = true,
+        linehl = false,
+      })
+    end
+  },
+
+  {
+    "sindrets/diffview.nvim"
+  },
 
   -- Dépannage
   {
@@ -66,13 +80,27 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("lualine").setup({
-        component_separators = { left = '', right = ''},
-        section_separators = { left = '', right = ''},
+        options = {
+          global_status = true,
+          component_separators = { left = '', right = ''},
+          section_separators = { left = '', right = ''},
+        },
         sections = {
-          lualine_b = {'branch', 'diff', 'diagnostics'},
-          -- lualine_x = {'encoding', 'fileformat', 'filetype'}
-          lualine_x = { function() return "😄" end }
-        }
+          lualine_a = { "mode" },
+          lualine_b = {'branch' },
+          lualine_c = { "filename" },
+          lualine_x = { "lsp_status" },
+          lualine_y = { 'encoding', 'fileformat', 'filetype'},
+          lualine_z = { 'progress', "location" }
+        },
+        inactive_sections = {
+          lualine_a = { },
+          lualine_b = { },
+          lualine_c = { "buffers" },
+          lualine_x = { },
+          lualine_y = { },
+          lualine_z = { "location" }
+        },
       })
     end
   }

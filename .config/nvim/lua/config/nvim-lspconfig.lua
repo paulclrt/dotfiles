@@ -1,5 +1,4 @@
 -- Load necessary modules
-local lspconfig = require("lspconfig")
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
 
@@ -26,7 +25,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- Common capabilities for LSP
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 
 
@@ -42,17 +41,17 @@ for type, icon in pairs({
 end
 
 -- Setup LSP servers
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
     on_attach = on_attach,
     capabilities = capabilities
 })
 
-lspconfig.pyright.setup({
+vim.lsp.config("pyright", {
     on_attach = on_attach,
     capabilities = capabilities
 })
 
-lspconfig.arduino_language_server.setup({
+vim.lsp.config("arduino_language_server", {
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = {
@@ -62,35 +61,31 @@ lspconfig.arduino_language_server.setup({
     },
 })
 
-
-lspconfig.clangd.setup({
+vim.lsp.config("clangd", {
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { "clangd", "--background-index", "--clang-tidy" },
 })
 
-lspconfig.asm_lsp.setup({
+vim.lsp.config("asm_lsp", {
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "asm", "s" },
 })
 
-
-
-
-lspconfig.cssls.setup({
+vim.lsp.config("cssls", {
     on_attach = on_attach,
     capabilities = capabilities
 })
 
-lspconfig.tailwindcss.setup({
+vim.lsp.config("tailwindcss", {
     on_attach = on_attach,
     capabilities = capabilities
 })
 
--- lspconfig.terraform.setup({
---     on_attach = on_attach,
---     capabilities = capabilities
--- })
+vim.lsp.config("terraform", {
+    on_attach = on_attach,
+    capabilities = capabilities
+})
 
 

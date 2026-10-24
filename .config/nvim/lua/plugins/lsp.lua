@@ -6,18 +6,9 @@ return {
       "rafamadriz/friendly-snippets",
     }
   },
-  -- { "rafamadriz/friendly-snippets" },
+  { "rafamadriz/friendly-snippets" },
   {
     "williamboman/mason-lspconfig.nvim",
-  },
-
-  -- Gestionnaire LSP
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-    }
   },
 
   -- for errors that overflow lsp
@@ -30,18 +21,32 @@ return {
 
   -- Completion
   {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-emoji"
+    "saghen/blink.cmp",
+    version = "1.*",
+    opts = {
+      keymap = { preset = "default" },   -- <C-space> open, <C-y> accept, <C-n>/<C-p> move
+      completion = {
+        menu = { auto_show = false },    -- nothing pops up unless you press <C-space>
+        ghost_text = { enabled = false },
+        documentation = { auto_show = true },
+      },
+      sources = { default = { "lsp", "path" } },  -- no buffer/snippet noise
+      signature = { enabled = true },    -- function signature hints, often the most useful part
     },
-    config = function() require("config.nvim-cmp") end
   },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   dependencies = {
+  --     "hrsh7th/cmp-nvim-lsp",
+  --     "hrsh7th/cmp-buffer",
+  --     "hrsh7th/cmp-path",
+  --     "hrsh7th/cmp-cmdline",
+  --     "L3MON4D3/LuaSnip",
+  --     "saadparwaiz1/cmp_luasnip",
+  --     "hrsh7th/cmp-emoji"
+  --   },
+  --   config = function() require("config.nvim-cmp") end
+  -- },
 
   -- Outils Mason
   {

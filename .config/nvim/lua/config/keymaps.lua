@@ -30,9 +30,26 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', opts)
 vim.keymap.set('n', '<C-l>', '<C-w>l', opts)
 
 -- resize windows
-vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', opts)
-vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', opts)
-vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', opts)
-vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', opts)
+-- use the default alt+hjkl
+-- vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', opts)
+-- vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', opts)
+-- vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', opts)
+-- vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 
 
+-- tab navigation and creation
+-- Alt + AZERTY top row (& é " ' ( - è) = go to tab 1 to 7
+local tab_keys = { "&", "é", '"', "'", "(", "-", "è" }
+
+for i, key in ipairs(tab_keys) do
+  vim.keymap.set("n", "<M-" .. key .. ">", function()
+    if i <= vim.fn.tabpagenr("$") then
+      vim.cmd("tabnext " .. i)
+    else
+      vim.notify("No tab " .. i, vim.log.levels.WARN)
+    end
+  end, { desc = "Go to tab " .. i })
+end
+
+-- Ctrl+t = new tab
+vim.keymap.set("n", "<C-t>", "<cmd>tabnew<cr>", { desc = "New tab" })

@@ -18,3 +18,6 @@ vim.opt.backup = false
 
 vim.o.scrolloff = 8
 vim.updatetime = 50
+
+-- gitsigns and left col space reserved
+-- vim.opt.signcolumn = "yes"

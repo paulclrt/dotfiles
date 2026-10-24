@@ -19,8 +19,8 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.lazyvim_check_order = false                                                                                                       
 
-require("config.options") -- Vos options personnalisées
-require("config.keymaps") -- Vos raccourcis personnalisés
+require("config.options") -- options personnalisées
+require("config.keymaps") -- raccourcis personnalisés
 
 require("lazy").setup({
   spec = {
@@ -54,7 +54,7 @@ require("lazy").setup({
 
   {
       "pmizio/typescript-tools.nvim",
-      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      dependencies = { "nvim-lua/plenary.nvim" },
       opts = {},
   },
 })
@@ -64,8 +64,8 @@ require("lazy").setup({
 
 
 -- cmp, lsp, mason
-require("config.nvim-cmp")
-require("config.config_treesitter")
+-- require("config.nvim-cmp")
+require("config.treesitter")
 require("config.nvim-lspconfig")
 require("config.telescope")
 require("config.harpoon")

@@ -1,0 +1,91 @@
+────────────────────────────────────────────────────────────────────────
+ LSP  (built into Neovim, active when a language server is attached)
+────────────────────────────────────────────────────────────────────────
+  gd            go to definition            (my mapping)
+  K             hover docs / type           (press twice to enter popup)
+  grn           RENAME symbol everywhere    <- use this, not :s
+  gra           code actions / quick fixes  (also on a visual selection)
+  grr           references -> quickfix list
+  gri           go to implementation
+  grt           go to type definition
+  gO            symbols in this file (outline)
+  <C-s>         signature help              (insert mode)
+  <C-o>         jump back after gd / grr    (see JUMPS)
+
+
+───────────────────────────────────────────────────────────────────────
+ GIT  (<leader>g group)
+────────────────────────────────────────────────────────────────────────
+  <leader>gr    reset (undo) the change      visual: reset selection
+  <leader>gs    stage / unstage the change   visual: stage selection
+  <leader>gb    blame current line (full commit)
+  <leader>gB    toggle blame on every line
+  <leader>gd    diff current file vs last commit
+ 
+  diff mode (after <leader>gd, :diffsplit, nvim -d)
+  ]c / [c       next / previous difference
+  do / dp       diff obtain (take theirs) / diff put (give mine)
+  :diffoff!     LEAVE diff mode in all windows  (the "----" lines bug)
+ 
+  diffview
+  <leader>gv    all modified files + diff (review before commit)
+  <leader>gh    history of current file
+  <leader>gH    history of whole repo
+  <leader>gq    close diffview
+
+────────────────────────────────────────────────────────────────────────
+ JUMPS / MOVING FAST
+────────────────────────────────────────────────────────────────────────
+  <C-o> / <C-i>   back / forward in jump history (works across files)
+  g; / g,         previous / next place you EDITED
+  gi              go back to last insert position AND enter insert
+  `.              exact position of last change
+  ''              back to where you were before the last jump
+  %               matching bracket
+  <C-d> / <C-u>   half page down / up
+  zz / zt / zb    put cursor line at center / top / bottom of screen
+  ma / 'a         set / jump to mark a (in this file)
+  mA / 'A         UPPERCASE mark = jumps across files (harpoon-lite)
+  gf              open file path under cursor
+  gx              open URL under cursor in browser
+  s               flash jump (type 2 chars, then the label)
+  S               flash treesitter select
+
+────────────────────────────────────────────────────────────────────────
+ EDITING POWER MOVES
+────────────────────────────────────────────────────────────────────────
+  .               repeat last change (use it constantly)
+  ciw / caw       change word / word + space    (d, y, v work too)
+  ci" ci( ci{     change inside quotes / parens / braces
+  cit             change inside HTML tag
+  * then cgn      change next match of word, then . . . for each next
+  gv              reselect last visual selection
+  J               join line below           gJ  join without space
+  >> / <<         indent / unindent         =ap reindent paragraph
+  gu / gU / ~     lowercase / UPPERCASE / toggle case (+ motion)
+  <C-a> / <C-x>   increment / decrement number under cursor
+  visual g<C-a>   make 1 1 1 1 into 1 2 3 4
+  [<space> ]<space>   add blank line above / below
+  <C-v> I / A     block insert / append on many lines
+  gcc / gc{motion}  toggle comment (built in), gcip = comment paragraph
+  ysiw"           surround word with "       ds" delete surrounding "
+  cs"'            change surrounding " to '
+ 
+  insert mode
+  <C-w>           delete word before cursor
+  <C-u>           delete to start of line
+  <C-o>{cmd}      run ONE normal-mode command, stay in insert
+  <C-r>"          paste last yank / delete   <C-r>0  last yank only
+ 
+ 
+────────────────────────────────────────────────────────────────────────
+ SEARCH / REPLACE
+────────────────────────────────────────────────────────────────────────
+  * / #           search word under cursor forward / backward
+  :%s//new/g      replace LAST SEARCH with new (search with * first)
+  :<C-r><C-w>     insert word under cursor into the command line
+  &  /  g&        repeat last :s on this line / on all lines
+  :g/pat/d        delete every line matching pat
+  :v/pat/d        delete every line NOT matching pat
+  :sort / :sort u sort lines / sort and remove duplicates
+
